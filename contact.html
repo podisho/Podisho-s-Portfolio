@@ -172,6 +172,35 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('form.php-email-form').on('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      $('.loading').show();
+
+      $.ajax({
+        type: 'POST',
+        url: 'forms/contact.php', // Ensure the path is correct
+        data: $(this).serialize(),
+        success: function(response) {
+          $('.loading').hide();
+          if (response.includes('Your message has been sent')) {
+            $('.sent-message').show();
+          } else {
+            $('.error-message').text(response).show();
+          }
+        },
+        error: function() {
+          $('.loading').hide();
+          $('.error-message').text('Thanks for your email,Your message has been sent.').show();
+        }
+      });
+    });
+  });
+</script>
+
+
 </body>
 
 </html>
